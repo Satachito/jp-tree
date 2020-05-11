@@ -1,0 +1,9 @@
+{
+  "name": "@satachito/jp-tree",
+  "version": "1.0.0",
+  "description": "JSON based object browser / editor",
+  "main": "jp-tree.js",
+  "repository": "https://github.com/Satachito/jp-tree.git",
+  "author": "Satoru Ogura <satoru.ogura@me.com>",
+  "license": "MIT"
+}

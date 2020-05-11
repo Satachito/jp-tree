@@ -1,143 +1,168 @@
-# jp-router
+# jp-tree
 
-A small and understandable WebComponets router which supports:
-
-* Lazy loading
-* Direct html
-* Tag base creation
+A JSON based object browser / editor Web Component.
 
 ## Install
 ```
-npm install @satachito/jp-router --save
+npm install @satachito/jp-tree --save
 ```
+
+## Running demo
+
+In our demo, we are using Bare module specifiers, ( for example `@satachito/jp-tree` to `./node_modules/@satachito/jp-tree/jp-tree.js` ). So run this demo using `es-dev-server` with `--node-resolve` option.
+
+### Serve
+```
+npm install -g es-dev-server
+cd node_modules/@satachito/jp-tree/demo
+npm i
+es-dev-server --node-resolve
+```
+
+### Access to specified address using Chrome
+
+We are testing on Chrome only.
+
 
 ## Write HTML and JavaScript
 
 ### index.html
 ```
-<!DOCTYPE html>
+<!doctype html>
 <html lang=zxx>
-<meta charset="utf-8" />
-<title>Router</title>
+	<title>jp-tree demo</title>
 
-<script type=module>
-	class
-	Home extends HTMLElement {
-		connectedCallback() {
-			this.innerHTML = '<h1>Home</h1>'
+	<link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500' rel='stylesheet'>
+	<link href='https://fonts.googleapis.com/css?family=Material+Icons&display=block' rel='stylesheet'>
+
+<body>
+	<script type=module>
+		import '@satachito/jp-tree'
+	</script>
+	<jp-tree></jp-tree>
+	<jp-tree json=null></jp-tree>
+	<jp-tree json=true></jp-tree>
+	<jp-tree json=false></jp-tree>
+	<jp-tree json=123></jp-tree>
+	<jp-tree json='"ABC"'></jp-tree>
+	<jp-tree
+		json='{
+			"jockeys": {
+				"05339": {
+					"name": "Christophe Patrice Lemaire"
+				,	"birthday": 19790520
+				}
+			,	"05212": {
+					"name": "Mirco Demuro"
+				,	"birthday": 19790111
+				}
+			}
+		,	"races": [
+				{	"date":	20181125
+				,	"name": "Japan Cup"
+				,	"grade": "G1"
+				,	"horses": [ "Almond Eye" ]
+				}
+			,	{	"date":	20181125
+				,	"name": "Keihan Hai"
+				,	"grade": "G3"
+				,	"horses": [ "Danon Smash" ]
+				}
+			,	{	"date":	20190120
+				,	"name": "Tokai S."
+				,	"grade": "G2"
+				,	"horses": [ "Inti" ]
+				}
+			,	{	"date":	20190120
+				,	"name": "American Jockey Club Cup"
+				,	"grade": "G2"
+				,	"horses": [ "Sciacchetra" ]
+				}
+			]
+		}'
+		isOpen=true
+	></jp-tree>
+	<script type=module>	
+		class
+		Undef extends HTMLElement {
+			constructor() {
+				super()
+				const jv = document.createElement( 'jp-tree' )
+				jv.props( {}, 'THE UNDEF KEY' )
+				this.attachShadow( { mode: 'open' } ).appendChild( jv )
+			}
 		}
-	}
-	customElements.define( 'jp-home', Home )
-</script>
+		customElements.define( 'jp-undef', Undef )
+		const
+		container = {
+			"HorseRaces": {
+				"jockeys": {
+					"05339": {
+						"name": "Christophe Patrice Lemaire"
+					,	"birthday": 19790520
+					}
+				,	"05212": {
+						"name": "Mirco Demuro"
+					,	"birthday": 19790111
+					}
+				}
+			,	"races": [
+					{	"date":	20181125
+					,	"name": "Japan Cup"
+					,	"grade": "G1"
+					,	"horses": [ "Almond Eye" ]
+					}
+				,	{	"date":	20181125
+					,	"name": "Keihan Hai"
+					,	"grade": "G3"
+					,	"horses": [ "Danon Smash" ]
+					}
+				,	{	"date":	20190120
+					,	"name": "Tokai S."
+					,	"grade": "G2"
+					,	"horses": [ "Inti" ]
+					}
+				,	{	"date":	20190120
+					,	"name": "American Jockey Club Cup"
+					,	"grade": "G2"
+					,	"horses": [ "Sciacchetra" ]
+					}
+				]
+			}
+		}
+		class
+		App extends HTMLElement {
+			constructor() {
+				super()
+				const jv = document.createElement( 'jp-tree' )
+				jv.props( container, 'HorseRaces', true, true )
+				this.attachShadow( { mode: 'open' } ).appendChild( jv )
+			}
+		}
+		customElements.define( 'jp-app', App )
+	</script>
+	<jp-undef></jp-undef>
+	<jp-app></jp-app>
 
-<nav class=nav>
-	<ul>
-		<li route=/				>Home			</li>
-		<li route=/direct		>Direct HTML	</li>
-		<li route=/horses		>Horses			</li>
-	</ul>
-</nav>
+## Props
 
-<jp-route
-	path=/
-	title=Home
-	data=jp-home
-	spec=tag
-></jp-route>
+json - The JSON to be displayed. Expects a valid JSON object.
+key - The key of the root object.
+isOpen - Open child elements. Default: true.
+edit - Edit mode. Default: true.
+depth - The maximum level of the JSON Tree to be expanded. Specify 0 to Infinity.
 
-<jp-route
-	path=/direct
-	title="Direct html"
-	data="<b>DIRECT HTML</b>"
-	spec=html
-></jp-route>
+## API
 
-<jp-route
-	path=/horses
-	title=Horses
-	data=/horses.js
-	spec=source
-></jp-route>
+props( container, key, isOpen = false, edit = false, depth = 0 )
 
-<jp-route
-	path=/horse/:id
-	title="Horse Details"
-	data=/horse.js
-	spec=source
-></jp-route>
-
-<script type=module src=./node_modules/@satachito/jp-router/jp-router.js></script>
-<jp-router></jp-router>
-```
-
-### horseDB.js
-
-```
-export const horseDB = {
-	1	: [ 'Narita Brian'	, 19910503 ]
-,	2	: [ 'Deep Impact'	, 20020325 ]
-,	3	: [ 'Orfevre'		, 20080514 ]
-}
-```
-
-### horses.js
-```
-import { horseDB } from './horseDB.js'
-
-export default class
-Horses extends HTMLElement {
-	connectedCallback() {
-		this.innerHTML = `
-			<div>
-				<h1>Horses</h1>
-				<ul>
-					${ Object.entries( horseDB ).map( _ => `<li route=/horse/${ _[ 0 ] }>${ JSON.stringify( _[ 1 ] ) }</li>` ).join( '' ) }
-				</ul>
-			</div>
-		`
-	}
-}
-
-customElements.define( 'jp-horses', Horses )
-```
-
-### horse.js
-
-```
-import { horseDB } from './horseDB.js'
-
-export default class
-Horse extends HTMLElement {
-	connectedCallback() {
-		this.innerHTML = `
-			<div class='page'>
-				<h1>Horse Details</h1>
-				<div>${ JSON.stringify( horseDB[ this.getAttribute( 'id' ) ] ) }</div>
-			</div>
-		`
-	}
-}
-
-customElements.define( 'jp-horse', Horse )
-```
-
-### Serve
-```
-npm install -g http-server
-http-server
-```
+container - Container object. container[ key ] is to be displayed. Expects a valid JSON object.
+key - The key of the root object.
+isOpen - Open child elements. Default: false.
+edit - Edit mode. Default: false.
+depth - The maximum level of the JSON Tree to be expanded. Specify 0 to Infinity.
 
 
-## Running demo
+## Changelog  
 
-Our demo contains illegal patterns i.e. 404 and multiple routing.
-
-Also in demo, we are using Bare module specifiers, ( for example `@satachito/jp-router` to `./node_modules/@satachito/jp-router/jp-router.js` ). So run this demo using `es-dev-server` with `--node-resolve` option.
-
-### Serve
-```
-npm install -g es-dev-server
-cd node_modules/@satachito/jp-router/demo
-npm i
-es-dev-server --node-resolve
-```
+* 1.0.0 Initial Release
