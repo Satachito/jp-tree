@@ -2,6 +2,11 @@
 
 A JSON based object browser / editor Web Component.
 
+* No external resources.
+* Very fast. There is no data conversion inside.
+* Ultra small. Easy to understand and modify.
+
+
 ## Install
 ```
 npm install @satachito/jp-tree --save
@@ -143,26 +148,28 @@ We are testing on Chrome only.
 	</script>
 	<jp-undef></jp-undef>
 	<jp-app></jp-app>
+```
 
 ## Props
 
-json - The JSON to be displayed. Expects a valid JSON object.
-key - The key of the root object.
-isOpen - Open child elements. Default: true.
-edit - Edit mode. Default: true.
-depth - The maximum level of the JSON Tree to be expanded. Specify 0 to Infinity.
+* json - The JSON to be displayed. Expects a valid JSON object.
+* key - The key of the root object.
+* isOpen - Open child elements. Default: true.
+* edit - Edit mode. Default: true.
+* depth - The maximum level of the JSON Tree to be expanded. Specify 0 to Infinity.
 
 ## API
 
 props( container, key, isOpen = false, edit = false, depth = 0 )
 
-container - Container object. container[ key ] is to be displayed. Expects a valid JSON object.
-key - The key of the root object.
-isOpen - Open child elements. Default: false.
-edit - Edit mode. Default: false.
-depth - The maximum level of the JSON Tree to be expanded. Specify 0 to Infinity.
+* container - Container object. container[ key ] is to be displayed. Expects a valid JSON object.
+* key - The key of the root object.
+* isOpen - Open child elements. Default: false.
+* edit - Edit mode. Default: false.
+* depth - The maximum level of the JSON Tree to be expanded. Specify 0 to Infinity.
 
 
 ## Changelog  
 
 * 1.0.0 Initial Release
+* 1.0.1 Update README.md
