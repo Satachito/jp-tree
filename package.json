@@ -1,6 +1,6 @@
 {
   "name": "@satachito/jp-tree",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "JSON based object browser / editor",
   "main": "jp-tree.js",
   "repository": "https://github.com/Satachito/jp-tree.git",

@@ -1,5 +1,11 @@
 # jp-tree
 
+THIS PACKAGE IS NO LONGER MAINTAINED.
+PLEASE CONSIDER USING @satachito/jp-tree-view
+
+https://www.npmjs.com/package/@satachito/jp-tree-view
+
+
 A JSON based object browser / editor Web Component.
 
 * No external resources.
